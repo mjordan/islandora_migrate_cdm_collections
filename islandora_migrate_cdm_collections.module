@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * The main Islandora CONTENTdm Collection Migrator file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_migrate_cdm_collections_menu() {
+  $items = array();
+  $items['admin/islandora/tools/migrate_cdm_collections'] = array(
+    'title' => 'Migrate CONTENTdm collection configurations',
+    'description' => 'Configure the Islandora CONTENTdm Collection Migrator.',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('islandora_migrate_cdm_collections_admin_settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Admin settings form builder.
+ */
+function islandora_migrate_cdm_collections_admin_settings() {
+  $form = array();
+  return system_settings_form($form);
+}
+

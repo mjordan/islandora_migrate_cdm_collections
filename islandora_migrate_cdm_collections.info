@@ -1,0 +1,6 @@
+name = Islandora CONTENTdm Collection Migrator
+description = "Utility module for migrating collection configuration information from CONTENTdm to Islandora."
+package = Islandora Tools
+version = 7.x-dev
+core = 7.x
+dependencies[] = islandora

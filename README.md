@@ -17,6 +17,11 @@ Once you have copied the output from the script over to your Islandora server, y
 ```
 drush --user=admin create-islandora-collections-from-cdm /tmp/cdmcollectiondata/collection_data.tsv
 ```
+or is short form:
+
+```
+drush --user=admin cicfc /tmp/cdmcollectiondata/collection_data.tsv
+```
 
 ## Requirements
 

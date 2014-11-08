@@ -205,9 +205,9 @@ function write_output($data) {
       $thumbnail_path_parts = pathinfo($thumbnail_source_path);
       $thumbnail_dest_path = $collection_output_dir . DIRECTORY_SEPARATOR . $thumbnail_path_parts['basename'];
       copy($thumbnail_source_path, $thumbnail_dest_path);
-      // Remove the path to the thumbnail image, serialize the other data in the array,
+      // Update the path to the thumbnail image, serialize the other data in the array,
       // and write it to a file in the output directory.
-      array_pop($collection);
+      $collection[3] = $thumbnail_path_parts['basename'];
     }
 
     // Write out the collection record to the tab-delimited file in the output directory.

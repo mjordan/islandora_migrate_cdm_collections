@@ -29,3 +29,63 @@ function islandora_migrate_cdm_collections_admin_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Ingest an Islandora collection object.
+ *
+ * @param string $namespace
+ *   The Fedora namespace to use for this object.
+ * @param array $collection
+ *   The configuration data for one CONTENTdm collection.
+ */
+function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora', $collection_data = array())  {
+  try {
+    $tuque = new IslandoraTuque();
+    $repository = $tuque->repository;
+    $fedora_object = $repository->constructObject($namespace);
+    $fedora_object->label = $collection_data[1];
+
+    $collection_policy = <<<EOCP
+<collection_policy xmlns="http://www.islandora.ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="" xsi:schemaLocation="http://www.islandora.ca http://syn.lib.umanitoba.ca/collection_policy.xsd">
+<content_models/>
+<search_terms/>
+<staging_area/>
+<relationship>isMemberOfCollection</relationship>
+</collection_policy>
+EOCP;
+
+    // Add the COLLECTION_POLICY ds.
+    $coll_policy_datastream = $fedora_object->constructDatastream('COLLECTION_POLICY', 'M');
+    $coll_policy_datastream->label = 'Test collection policy';
+    $coll_policy_datastream->mimetype = 'text/xml';
+    $coll_policy_datastream->setContentFromString($collection_policy);
+    $fedora_object->ingestDatastream($coll_policy_datastream);
+
+    $dc = <<<EODC
+<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Test collection created by a script</dc:title>
+<dc:identifier>$fedora_object->pid</dc:identifier>
+<dc:description>$collection_data[2]</dc:description>
+</oai_dc:dc>
+EODC;
+
+    // Add the DC ds.
+    $dc_datastream = $fedora_object->constructDatastream('DC', 'M');
+    $dc_datastream->label = 'Dublin Core Record for this object';
+    $dc_datastream->mimetype = 'text/xml';
+    $dc_datastream->setContentFromString($dc);
+    $fedora_object->ingestDatastream($dc_datastream);
+
+    // Add relationships.
+    $rels = $fedora_object->relationships;
+    $rels->add('info:fedora/fedora-system:def/relations-external#', 'isMemberOfCollection', 'islandora:root', FALSE);
+    $rels->add('info:fedora/fedora-system:def/model#', 'hasModel', 'islandora:collectionCModel', FALSE);
+
+    $repository->ingestObject($fedora_object);
+    drupal_set_message(t('Ingested Islandora collection object %t: %p', array('%t' => $collection_data[1], '%p' => $fedora_object->pid))), 'status');
+    
+  }
+  catch (Exception $e) {
+    drupal_set_message(t('Error ingesting Islandora collection object %t: %m', array('%t' => $collection_data[1], '%m' => $e->getMessage())), 'error', FALSE);
+  }
+}
+

@@ -22,15 +22,15 @@ function islandora_migrate_cdm_collections_drush_command() {
   $items = array();
   $items['create-islandora-collections-from-cdm'] = array(
     'arguments' => array(
-      'cdmdata' => dt('The absolute filesystem path to the collection data exported from CONTENTdm.'),
+      'cdmdata' => dt('The absolute path to the tab-separated file containing collection data exported from CONTENTdm.'),
     ),
     'required-arguments' => TRUE,
     'description' => dt('Creates Islandora collections using the specified data exported from CONTENTdm.'),
     'examples' => array(
-      'Standard example' => 'drush --user=fedoraAdmin create-islandora-collections-from-cdm /tmp/cdmdata',
-      'Alias example' => 'drush --user=fedoraAdmin cicfc /tmp/cdmdata',
+      'Standard example' => 'drush --user=fedoraAdmin create-islandora-collections-from-cdm /tmp/cdmcollectiondata/collection_data.tsv',
+      'Alias example' => 'drush --user=fedoraAdmin cicfc /tmp/cdmcollectiondata/collection_data.tsv',
     ),
-    'aliases' => array('cicfc'),
+    'aliases' => array('cicfcc'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_LOGIN,
   );
   return $items;
@@ -39,6 +39,10 @@ function islandora_migrate_cdm_collections_drush_command() {
 /**
  * Callback function for drush create-islandora-collections-from-cdm.
  */
-function drush_islandora_migrate_cdm_collections_create_islandora_collections_from_cdm($cdmdata = NULL) {
-  drush_print("Hi from drush, using data from " . $cdmdata);
+function drush_islandora_migrate_cdm_collections_create_islandora_collections_from_cdm($input_path = NULL) {
+  $collections_data = file($input_path);
+  foreach ($collection_data as $collection_config) {
+    $data = explode("\t", $collection_config);
+    islandora_migrate_cdm_collections_ingest_collection('islandora', $data);
+  }
 }

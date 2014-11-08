@@ -6,10 +6,17 @@ A utility module for exporting collection configuration data from a CONTENTdm in
 
 This module has two main parts: 1) a command-line PHP script that harvests configuration data for collections on a CONTENTdm server and 2) a drush script for creating collections in an Islandora instance using that data. The PHP script outputs the collection data into a tab-separated file so it can be modified prior to being used by the drush script.
 
-Detailed instructions for running the PHP script are provided within the script itself, but in a nutshell, oyou configure a few variables and then run the script. If you have access to your CONTENTdm server's shell and run the script there, the resulting data will contain the title and description for each CONTENTdm collection, plus the collection's thumbnail image. If you don't have access to your CONTENTdm server's shell (e.g., your CONTENTdm is hosted by OCLC), you can run the script from any computer that has PHP installed, but the output will only contain the collection titles.
+Detailed instructions for running the PHP script are provided within the script itself, but in a nutshell, oyou configure a few variables and then run the script. If you have access to your CONTENTdm server's shell and run the script there, the resulting data will contain the title and description for each CONTENTdm collection, plus the collection's thumbnail image. If you don't have access to your CONTENTdm server's shell (e.g., your CONTENTdm is hosted by OCLC), you can run the script from any computer that has PHP installed, but the output will only contain the collection titles. In both cases, you run the script by issuing the following command:
 
-Once you have the output from the script, you can run the drush command on your Islandora server to create the collections identified in the output.
+```
+php get_collection_data.php
+```
 
+Once you have copied the output from the script over to your Islandora server, you run the drush command on your Islandora server to create the collections identified in the output:
+
+```
+drush --user=fedoraAdmin create-islandora-collections-from-cdm /tmp/cdmdata
+```
 
 ## Requirements
 

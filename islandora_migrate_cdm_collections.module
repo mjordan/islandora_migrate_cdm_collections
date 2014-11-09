@@ -81,28 +81,39 @@ EODC;
     $dc_datastream->setContentFromString($dc_xml);
     $collection_object->ingestDatastream($dc_datastream);
 
-    // Add thumbnail ds if there is a thumbnail path in $collection_data[3].
+    // Add thumbnail ds. If we don't have thumbnails in the input data,
+    // use the image provided by the collection solution pack.
+    $tn_datastream = $collection_object->constructDatastream('TN', 'M');
     if (count($collection_data) > 2 && strlen($collection_data[3])) {
-      $tn_datastream = $collection_object->constructDatastream('TN', 'M');
-      $tn_datastream->label = 'Thumbnail';
-      $tn_datastream->mimetype = 'image/jpeg';
       $path_to_thumbnail = $input_path . DIRECTORY_SEPARATOR .
         $collection_data[0] . DIRECTORY_SEPARATOR . $collection_data[3];
-      $tn_datastream->setContentFromFile($path_to_thumbnail);
-      $collection_object->ingestDatastream($tn_datastream);
+      if (!file_exists($path_to_thumbnail)) {
+        $path_to_thumbnail = drupal_get_path('module', 'islandora_basic_collection') .
+          '/images/folder.png';
+      }
     }
+    else {
+      $path_to_thumbnail = drupal_get_path('module', 'islandora_basic_collection') .
+        '/images/folder.png';
+    }
+    $mime_detector = new MimeDetect();
+    $tn_datastream->mimetype = $mime_detector->getMimetype($path_to_thumbnail);
+    $tn_datastream->label = 'Thumbnail';
+    $tn_datastream->setContentFromFile($path_to_thumbnail);
+    $collection_object->ingestDatastream($tn_datastream);
 
     // Add relationships.
     $rels = $collection_object->relationships;
     $rels->add('info:fedora/fedora-system:def/relations-external#', 'isMemberOfCollection', $parent, FALSE);
     $rels->add('info:fedora/fedora-system:def/model#', 'hasModel', 'islandora:collectionCModel', FALSE);
 
-    $ret = $repository->ingestObject(NewFedoraObject $collection_object);
-    var_dump($ret);
-    // drupal_set_message(t('Ingested Islandora collection object %t: %p', array('%t' => $collection_data[1], '%p' => $collection_object->pid))), 'status');
+    $repository->ingestObject($collection_object);
+    watchdog('islandora_migrate_cdm_collections', 'Ingested Islandora collection object %t: %p.',
+      array('%t' => $collection_object->title, '%p' => $collection_object->pid), WATCHDOG_INFO);
   }
   catch (Exception $e) {
-    drupal_set_message(t('Error ingesting Islandora collection object %t: %m', array('%t' => $collection_data[1], '%m' => $e->getMessage())), 'error', FALSE);
+    watchdog('islandora_migrate_cdm_collections', 'Error ingesting Islandora collection object %t: %p.',
+      array('%t' => $collection_data[1]), WATCHDOG_ERROR);
   }
 }
 

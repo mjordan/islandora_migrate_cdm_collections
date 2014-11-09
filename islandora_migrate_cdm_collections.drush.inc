@@ -22,6 +22,22 @@ function islandora_migrate_cdm_collections_drush_command() {
   $items = array();
   $items['create-islandora-collections-from-cdm'] = array(
     'description' => dt('Creates Islandora collections using the specified data exported from CONTENTdm.'),
+    'options' => array(
+      'namespace' => array(
+        'description' => 'The namespace to use for the new collections. Defaults to "islandora".',
+        'required' => 'false',
+      ),
+      'parent' => array(
+        'description' => 'The collection to which the new collections should ' .
+        'be added. Defaults to the root Islandora repository PID.',
+        'required' => 'false',
+      ),
+      'input' => array(
+        'description' => 'The absolute path to the tab-delimited file generated ' .
+        'by the get_collection_data.php script.',
+        'required' => 'true',
+      ),
+    ),
     'examples' => array(
       'Standard example' => 'drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv',
       'Alias example' => 'drush --user=admin cicfc --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv',
@@ -42,7 +58,7 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     'parent' => drush_get_option('parent', variable_get('islandora_repository_pid', 'islandora:root')),
   );
   $collections_data = file($params['input']);
-  foreach ($collection_data as $collection_config) {
+  foreach ($collections_data as $collection_config) {
     $data = explode("\t", $collection_config);
     islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $input, $data);
   }

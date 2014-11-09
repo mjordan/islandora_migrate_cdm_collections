@@ -29,9 +29,7 @@ This module requires the following modules/libraries:
 
 * [Islandora](https://github.com/islandora/islandora)
 
-## Configuration
-
-## Current maintainer:
+## Current maintainer
 
 * [Mark Jordan](https://github.com/mjordan)
 

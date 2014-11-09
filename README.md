@@ -15,12 +15,12 @@ php get_collection_data.php
 Once you have copied the output from the script over to your Islandora server, you run the drush command on your Islandora server to create the collections identified in the output:
 
 ```
-drush --user=admin create-islandora-collections-from-cdm /tmp/cdmcollectiondata/collection_data.tsv
+drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
 ```
 or is short form:
 
 ```
-drush --user=admin cicfc /tmp/cdmcollectiondata/collection_data.tsv
+drush --user=admin cicfc --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
 ```
 
 ## Requirements

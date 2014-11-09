@@ -26,16 +26,19 @@ function islandora_migrate_cdm_collections_drush_command() {
       'namespace' => array(
         'description' => 'The namespace to use for the new collections. Defaults to "islandora".',
         'required' => 'false',
+        'value' => 'optional',
       ),
       'parent' => array(
         'description' => 'The collection to which the new collections should ' .
         'be added. Defaults to the root Islandora repository PID.',
         'required' => 'false',
+        'value' => 'optional',
       ),
       'input' => array(
         'description' => 'The absolute path to the tab-delimited file generated ' .
         'by the get_collection_data.php script.',
         'required' => 'true',
+        'value' => 'required',
       ),
     ),
     'examples' => array(

@@ -108,10 +108,14 @@ EODC;
     $rels->add('info:fedora/fedora-system:def/model#', 'hasModel', 'islandora:collectionCModel', FALSE);
 
     $repository->ingestObject($collection_object);
+    drupal_set_message('Ingested Islandora collection object %t: %p.',
+      array('%t' => $collection_object->title, '%p' => $collection_object->pid));
     watchdog('islandora_migrate_cdm_collections', 'Ingested Islandora collection object %t: %p.',
       array('%t' => $collection_object->title, '%p' => $collection_object->pid), WATCHDOG_INFO);
   }
   catch (Exception $e) {
+    drupal_set_message('Error ingesting Islandora collection object %t: %p.',
+      array('%t' => $collection_object->title, '%p' => $collection_object->pid), 'error');
     watchdog('islandora_migrate_cdm_collections', 'Error ingesting Islandora collection object %t: %p.',
       array('%t' => $collection_data[1]), WATCHDOG_ERROR);
   }

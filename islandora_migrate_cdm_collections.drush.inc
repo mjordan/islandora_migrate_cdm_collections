@@ -60,6 +60,10 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     'input' => drush_get_option('input'),
     'parent' => drush_get_option('parent', variable_get('islandora_repository_pid', 'islandora:root')),
   );
+  if (!file_exists($params['input'])) {
+    return drush_set_error(dt("Can't find data file at @path.", array('@path' => $params['input'])));
+  }
+
   $collections_data = file($params['input']);
   foreach ($collections_data as $collection_config) {
     $data = explode("\t", $collection_config);

@@ -37,7 +37,8 @@ function islandora_migrate_cdm_collections_admin_settings() {
  * @param array $collection
  *   The configuration data for one CONTENTdm collection.
  */
-function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora', $parent = 'islandora:root', $input_path, $collection_data = array())  {
+function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora',
+  $parent = 'islandora:root', $input_path = '/tmp/collections', $collection_data = array())  {
   try {
     $tuque = new IslandoraTuque();
     $repository = $tuque->repository;
@@ -85,8 +86,9 @@ EODC;
     // use the image provided by the collection solution pack.
     $tn_datastream = $collection_object->constructDatastream('TN', 'M');
     if (count($collection_data) > 2 && strlen($collection_data[3])) {
-      $path_to_thumbnail = $input_path . DIRECTORY_SEPARATOR .
-        $collection_data[0] . DIRECTORY_SEPARATOR . $collection_data[3];
+      $input_path_dirname = dirname($input_path);
+      $path_to_thumbnail = $input_path_dirname . DIRECTORY_SEPARATOR .
+        $collection_data[0] . DIRECTORY_SEPARATOR . trim($collection_data[3]);
       if (!file_exists($path_to_thumbnail)) {
         $path_to_thumbnail = drupal_get_path('module', 'islandora_basic_collection') .
           '/images/folder.png';
@@ -108,16 +110,16 @@ EODC;
     $rels->add('info:fedora/fedora-system:def/model#', 'hasModel', 'islandora:collectionCModel', FALSE);
 
     $repository->ingestObject($collection_object);
-    drupal_set_message('Ingested Islandora collection object %t: %p.',
-      array('%t' => $collection_object->title, '%p' => $collection_object->pid));
-    watchdog('islandora_migrate_cdm_collections', 'Ingested Islandora collection object %t: %p.',
-      array('%t' => $collection_object->title, '%p' => $collection_object->pid), WATCHDOG_INFO);
+    drupal_set_message(t('Ingested Islandora collection object %t (PID %p).',
+      array('%t' => $collection_object->label, '%p' => $collection_object->id)));
+    watchdog('islandora_migrate_cdm_collections', t('Ingested Islandora collection object %t (PID %p).',
+      array('%t' => $collection_object->label, '%p' => $collection_object->id)), WATCHDOG_INFO);
   }
   catch (Exception $e) {
-    drupal_set_message('Error ingesting Islandora collection object %t: %p.',
-      array('%t' => $collection_object->title, '%p' => $collection_object->pid), 'error');
-    watchdog('islandora_migrate_cdm_collections', 'Error ingesting Islandora collection object %t: %p.',
-      array('%t' => $collection_data[1]), WATCHDOG_ERROR);
+    drupal_set_message(t('Error ingesting Islandora collection object %t (PID %p).',
+      array('%t' => $collection_object->title, '%p' => $collection_object->id), 'error'));
+    watchdog('islandora_migrate_cdm_collections', t('Error ingesting Islandora collection object %t (PID %p).',
+      array('%t' => $collection_data[1], '%p' => $collection_object->id)), WATCHDOG_ERROR);
   }
 }
 

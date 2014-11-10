@@ -63,6 +63,6 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
   $collections_data = file($params['input']);
   foreach ($collections_data as $collection_config) {
     $data = explode("\t", $collection_config);
-    islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $input, $data);
+    islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $params['input'], $data);
   }
 }

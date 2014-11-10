@@ -15,7 +15,7 @@ php get_collection_data.php
 Running this script on the CONTENTdm server's command line creates a file containing one tab-delimited row per collection, for example (with tabs represented here by [\t]):
 
 ```
-ubcCtn[\t]Chinatown News[\t]&lt;p&gt;The &lt;em&gt;Chinatown News&lt;/em&gt; was an English-language biweekly magazine.&lt;/p&gt;[\t]chn2.jpg
+ubcCtn[\t]Chinatown News[\t]<p>The <em>Chinatown News</em> was an English-language biweekly magazine.</p>[\t]chn2.jpg
 ```
 
 Thumbnail images identified in the last field are copied into the output directory within subdirectories named after the collection alias (the value in the first field). If run outside the CONTENTdm server, using the CONTENTdm Web API, the lines in the file only contain the first two fields, and the thumbnail images are not copied: 

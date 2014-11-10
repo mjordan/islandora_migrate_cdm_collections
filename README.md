@@ -6,7 +6,7 @@ A utility module for exporting collection configuration data from a CONTENTdm in
 
 This module has two main parts: 1) a command-line PHP script that harvests configuration data for collections on a CONTENTdm server and 2) a drush script for creating collections in an Islandora instance using that data. The PHP script outputs the collection data into a tab-separated file so it can be modified prior to being used by the drush script.
 
-Detailed instructions for running the PHP script are provided within the script itself, but in a nutshell, oyou configure a few variables and then run the script. If you have access to your CONTENTdm server's shell and run the script there, the resulting data will contain the title and description for each CONTENTdm collection, plus the collection's thumbnail image. If you don't have access to your CONTENTdm server's shell (e.g., your CONTENTdm is hosted by OCLC), you can run the script from any computer that has PHP installed, but the output will only contain the collection titles. In both cases, you run the script by issuing the following command:
+Detailed instructions for running the PHP script are provided within the script itself, but in a nutshell, you configure a few variables and then run the script. If you have access to your CONTENTdm server's shell and run the script there, the resulting data will contain the title and description for each CONTENTdm collection, plus the collection's thumbnail image. If you don't have access to your CONTENTdm server's shell (e.g., your CONTENTdm is hosted by OCLC), you can run the script from any computer that has PHP installed, but the output will only contain the collection titles. In both cases, you run the script by issuing the following command:
 
 ```
 php get_collection_data.php
@@ -34,6 +34,8 @@ or is short form:
 ```
 drush --user=admin cicfc --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
 ```
+
+You are free to edit the output file before running it through the drush script as long as you don't change structure of the fields and don't add any line breaks.
 
 ## Requirements
 

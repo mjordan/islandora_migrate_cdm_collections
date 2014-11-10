@@ -6,30 +6,6 @@
  */
 
 /**
- * Implements hook_menu().
- */
-function islandora_migrate_cdm_collections_menu() {
-  $items = array();
-  $items['admin/islandora/tools/migrate_cdm_collections'] = array(
-    'title' => 'Migrate CONTENTdm collection configurations',
-    'description' => 'Configure the Islandora CONTENTdm Collection Migrator.',
-    'page callback' => 'drupal_get_form',
-    'access arguments' => array('administer site configuration'),
-    'page arguments' => array('islandora_migrate_cdm_collections_admin_settings'),
-    'type' => MENU_NORMAL_ITEM,
-  );
-  return $items;
-}
-
-/**
- * Admin settings form builder.
- */
-function islandora_migrate_cdm_collections_admin_settings() {
-  $form = array();
-  return system_settings_form($form);
-}
-
-/**
  * Ingest an Islandora collection object.
  *
  * @param string $namespace
@@ -37,8 +13,8 @@ function islandora_migrate_cdm_collections_admin_settings() {
  * @param array $collection
  *   The configuration data for one CONTENTdm collection.
  */
-function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora',
-  $parent = 'islandora:root', $input_path = '/tmp/collections', $collection_data = array())  {
+function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora', $parent = 'islandora:root',
+  $input_path = '/tmp/collections/collection_data.tsv', $collection_data = array())  {
   try {
     $tuque = new IslandoraTuque();
     $repository = $tuque->repository;

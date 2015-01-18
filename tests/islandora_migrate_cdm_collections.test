@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Tests the presence of collections created by the Islandora CONTENTdm
+ * Collection Migrator.
+ */
+
+class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
+
+  /**
+   * Get test information.
+   *
+   * @see IslandoraWebTestCase::getInfo()
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'CONTENTdm Collections Migrator',
+      'description' => 'Tests the CONTENTdm Collection Migrator',
+      'group' => 'Islandora CONTENTdm Collection Migrator',
+    );
+  }
+
+  /**
+   * Set up the test environment.
+   *
+   * @see IslandoraWebTestCase::setUp()
+   */
+  public function setUp() {
+  }
+
+  /**
+   * Tests the presence of collections created by the drush command.
+   */
+  public function testForCollections() {
+  }
+}

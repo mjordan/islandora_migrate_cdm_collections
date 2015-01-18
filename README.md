@@ -1,4 +1,4 @@
-# Islandora CONTENTdm Collection Migrator
+# Islandora CONTENTdm Collection Migrator [![Build Status](https://travis-ci.org/mjordan/islandora_migrate_cdm_collections.png?branch=7.x)](https://travis-ci.org/mjordan/islandora_migrate_cdm_collections)
 
 A utility module for exporting collection configuration data from a CONTENTdm instance and then creating Islandora collections using this data. This module will only be of use to sites that are migrating from CONTENTdm to Islandora.
 

@@ -94,12 +94,12 @@ EODC;
     drupal_set_message(t('Ingested Islandora collection object %t (PID %p).',
       array('%t' => $collection_object->label, '%p' => $collection_object->id)));
     watchdog('islandora_migrate_cdm_collections', 'Ingested Islandora collection object %t (PID %p).',
-      array('%t' => $collection_object->label, '%p' => $collection_object->id)), WATCHDOG_INFO);
+      array('%t' => $collection_object->label, '%p' => $collection_object->id), WATCHDOG_INFO);
   }
   catch (Exception $e) {
     drupal_set_message(t('Error ingesting Islandora collection object %t (PID %p).',
       array('%t' => $collection_object->title, '%p' => $collection_object->id), 'error'));
     watchdog('islandora_migrate_cdm_collections', 'Error ingesting Islandora collection object %t (PID %p).',
-      array('%t' => $collection_data[1], '%p' => $collection_object->id)), WATCHDOG_ERROR);
+      array('%t' => $collection_data[1], '%p' => $collection_object->id), WATCHDOG_ERROR);
   }
 }

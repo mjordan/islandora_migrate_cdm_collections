@@ -40,12 +40,16 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
     $file = drupal_get_path('module', 'islandora_migrate_cdm_collections') .
       '/tests/fixtures/data.tsv';
     $data = file($file);
+    $pid = 0;
     foreach ($data as $datum) {
+      $pid++;
       // Test URL of collection.
       $data_parts = explode("\t", trim($datum));
-      $coll_path = 'islandora/object/islandora%3A' . $data_parts[0];
+      $coll_path = 'islandora/object/islandora%3A' . $pid[0];
       $this->drupalGet($coll_path);
       $this->assertResponse(200, 'Response OK');
+      $this->assertText('This is collection ' . $pid,
+        'The text "collection $pid" appears on collection page.');
     }
   }
 }

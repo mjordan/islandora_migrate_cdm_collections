@@ -1,5 +1,6 @@
-<?
+<?php
 /**
+ * @file
  * Script to parse CONTENTdm collection configuration files to get the collection alias,
  * title, description, and thumbnail URL. To avoid having to run a scirpt on the server,
  * we would scrapte this data is from the CONTENTdm index page, but that page is not

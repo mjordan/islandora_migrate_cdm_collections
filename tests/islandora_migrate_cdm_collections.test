@@ -45,10 +45,10 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
       $pid++;
       // Test URL of collection.
       $data_parts = explode("\t", trim($datum));
-      $coll_path = 'islandora/object/islandora%3A' . $pid[0];
+      $coll_path = 'islandora/object/islandora%3A' . $pid;
       $this->drupalGet($coll_path);
       $this->assertResponse(200, 'Response OK');
-      $this->assertText('This is collection x ' . $pid,
+      $this->assertText('This is collection ' . $pid,
         'The text "collection $pid" appears on collection page.');
     }
   }

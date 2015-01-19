@@ -46,7 +46,7 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
     // coder-review throws a warning if we concatenate across lines.
     $drush_cmd = "drush --user=1 cicfc --namespace=islandora ";
     $drush_cmd .= "--parent=islandora:root --input=";
-    $drush_cmd .=  $path . "/tests/fixtures/data.tsv";
+    $drush_cmd .= $path . "/tests/fixtures/data.tsv";
     exec($drush_cmd);
 
     $data_file = $path . '/tests/fixtures/data.tsv';

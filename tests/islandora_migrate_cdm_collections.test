@@ -45,6 +45,7 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
 
     $drush_cmd = "drush --user=1 cicfc --namespace=islandora " .
        "--parent=islandora:root --input=" .  $path . "/tests/fixtures/data.tsv";
+    debug($drush_cmd);
     exec($drush_cmd);
 
     $data_file = $path . '/tests/fixtures/data.tsv';
@@ -53,7 +54,7 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
     foreach ($data as $datum) {
       $pid++;
       // Test URL of collection.
-      $data_parts = explode("\t", trim($datum));
+      // $data_parts = explode("\t", trim($datum));
       $coll_path = 'islandora/object/islandora%3A' . $pid;
       $this->drupalGet($coll_path);
       $this->assertResponse(200, 'Response OK');

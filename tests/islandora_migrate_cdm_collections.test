@@ -45,7 +45,7 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
 
     $drush_cmd = "drush --user=1 cicfc --namespace=islandora " .
        "--parent=islandora:root --input=" .  $path . "/tests/fixtures/data.tsv";
-    debug($drush_cmd);
+    watchdog('islandora_migrate_cdm_collections', "drush command is: %cmd", array('%cmd' => $drush_cmd));
     exec($drush_cmd);
 
     $data_file = $path . '/tests/fixtures/data.tsv';

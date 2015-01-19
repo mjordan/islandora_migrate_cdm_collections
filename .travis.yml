@@ -19,6 +19,5 @@ before_install:
 script:
   - ant -buildfile sites/all/modules/islandora_migrate_cdm_collections/build.xml lint
   - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_migrate_cdm_collections
-  - drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_migrate_cdm_collections
   - phpcpd --names *.module,*.inc,*.test sites/all/modules/islandora_migrate_cdm_collections
   - drush test-run --uri=http://localhost:8081 --debug "Islandora CONTENTdm Collection Migrator"

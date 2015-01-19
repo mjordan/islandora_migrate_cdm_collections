@@ -43,8 +43,10 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
 
     $path = drupal_get_path('module', 'islandora_migrate_cdm_collections');
 
-    $drush_cmd = "drush --user=1 cicfc --namespace=islandora "
-       . "--parent=islandora:root --input=" .  $path . "/tests/fixtures/data.tsv";
+    // coder-review throws a warning if we concatenate across lines.
+    $drush_cmd = "drush --user=1 cicfc --namespace=islandora ";
+    $drush_cmd .= "--parent=islandora:root --input=";
+    $drush_cmd .=  $path . "/tests/fixtures/data.tsv";
     exec($drush_cmd);
 
     $data_file = $path . '/tests/fixtures/data.tsv';

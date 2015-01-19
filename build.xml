@@ -83,6 +83,10 @@
     </exec>
   </target>
 
+ <target name="code-review">
+    <exec executable="drush">
+      <arg line="coder-review --reviews=production,security,style,i18n,potx,sniffer --xml=${basedir}/build/test islandora_migrate_cdm_collection" />
+
   <target name="test">
     <exec executable="drush">
       <arg line="test-run --uri=http://localhost --xml=${basedir}/build/test 'Islandora CONTENTdm Collection Migrator'" />

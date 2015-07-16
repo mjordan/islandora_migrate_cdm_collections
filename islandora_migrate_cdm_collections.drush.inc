@@ -40,6 +40,11 @@ function islandora_migrate_cdm_collections_drush_command() {
         'required' => 'true',
         'value' => 'required',
       ),
+      'create_node_with_content_type' => array(
+        'description' => 'Create a node for each collection with the specified Drupal content type. ',
+        'Defaults to "page"..',
+        'required' => 'false',
+      ),
     ),
     'examples' => array(
       'Standard example' => 'drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv',
@@ -59,6 +64,7 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     'namespace' => drush_get_option('namespace', 'islandora'),
     'input' => drush_get_option('input'),
     'parent' => drush_get_option('parent', variable_get('islandora_repository_pid', 'islandora:root')),
+    'create_node_with_content_type' => drush_get_option('create_node_with_content_type', NULL),
   );
   if (!file_exists($params['input'])) {
     return drush_set_error(dt("Can't find data file at @path.", array('@path' => $params['input'])));
@@ -68,5 +74,9 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
   foreach ($collections_data as $collection_config) {
     $data = explode("\t", $collection_config);
     islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $params['input'], $data);
+  }
+
+  if ($params['create_node_with_content_type']) {
+    islandora_migrate_cdm_collections_ingest_node($params['input'], $data, $params['create_node_with_content_type']);
   }
 }

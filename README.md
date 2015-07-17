@@ -24,12 +24,14 @@ Thumbnail images identified in the last field are copied into the output directo
 ubcCtn[\t]Chinatown News
 ```
 
-Once you have copied the output from the script over to your Islandora server, you run the drush command on your Islandora server to create the collections identified in the output.
+There is another option in `get_collection_data.php` that warrents explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the Drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but it will contain a snapshot, in JSON format, of the collection's metadata configuration, which may prove useful in your migration process or for some unforseen purpose in the future.
+
+Once you have run `get_collection_data.php` and copied its output to your Islandora server, you run the drush command to create the collections identified in the output.
 
 ```
 drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
 ```
-or is short form:
+or its short form:
 
 ```
 drush --user=admin cicfc --namespace=mynamespace --parent=islandora:root  --input=/tmp/cdmcollectiondata/collection_data.tsv --create_node_with_content_type=mycontenttype

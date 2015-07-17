@@ -84,11 +84,23 @@ EODC;
       $path_to_thumbnail = drupal_get_path('module', 'islandora_basic_collection') .
         '/images/folder.png';
     }
-    $mime_detector = new MimeDetect();
-    $tn_datastream->mimetype = $mime_detector->getMimetype($path_to_thumbnail);
+    $tn_mime_detector = new MimeDetect();
+    $tn_datastream->mimetype = $tn_mime_detector->getMimetype($path_to_thumbnail);
     $tn_datastream->label = 'Thumbnail';
     $tn_datastream->setContentFromFile($path_to_thumbnail);
     $collection_object->ingestDatastream($tn_datastream);
+
+    // Add the CDMFIELDINFO datastream, if CDMFIELDINFO.json is present.
+    $path_to_cdmfieldinfo = $input_path_dirname . DIRECTORY_SEPARATOR .
+      $collection_data[0] . DIRECTORY_SEPARATOR . 'CDMFIELDINFO.json';
+    if (file_exists($path_to_cdmfieldinfo)) {
+      $cdmfieldinfo_datastream = $collection_object->constructDatastream('CDMFIELDINFO', 'M');
+      $cdmfieldinfo_mime_detector = new MimeDetect();
+      $cdmfieldinfo_datastream->mimetype = $cdmfieldinfo_mime_detector->getMimetype($path_to_cdmfieldinfo);
+      $cdmfieldinfo_datastream->label = 'CONTENTdm dmGetCollectionFieldInfo output for this object';
+      $cdmfieldinfo_datastream->setContentFromFile($path_to_cdmfieldinfo);
+      $collection_object->ingestDatastream($cdmfieldinfo_datastream);
+    }
 
     // Add relationships.
     $rels = $collection_object->relationships;

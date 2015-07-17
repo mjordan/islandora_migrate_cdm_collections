@@ -236,13 +236,11 @@ function write_output($data) {
   }
 
   foreach ($data as $collection) {
-    // First, create a subdirectory for this collection under $output_dir, provided
-    // $collection contains more than just an alias and a title
-    if (count($collection) > 2) {
-      $collection_output_dir = $output_dir . DIRECTORY_SEPARATOR . $collection[0];
-      if (!file_exists($collection_output_dir)) {
-        mkdir($collection_output_dir);
-      }
+    // First, create a subdirectory for this collection under $output_dir for
+    // thumbnails and other datastreams created by this script.
+    $collection_output_dir = $output_dir . DIRECTORY_SEPARATOR . $collection[0];
+    if (!file_exists($collection_output_dir)) {
+      mkdir($collection_output_dir);
     }
 
     // Copy the collection's thumbnail image to the output directory.
@@ -261,10 +259,6 @@ function write_output($data) {
     if (isset($contentdm_api_base_url)) {
       if ($get_collection_field_info) {
         global $contentdm_api_base_url;
-        $collection_output_dir = $output_dir . DIRECTORY_SEPARATOR . $collection[0];
-        if (!file_exists($collection_output_dir)) {
-          mkdir($collection_output_dir);
-        }
         $datastream_filename = 'CDMFIELDINFO.json';
         $field_info_dest_path = $collection_output_dir . DIRECTORY_SEPARATOR . $datastream_filename;
         if ($field_info = get_collection_field_info($contentdm_api_base_url, $collection[0])) {

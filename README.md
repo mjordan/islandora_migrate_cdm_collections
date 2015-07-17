@@ -28,6 +28,8 @@ Thumbnail images identified in the last field are copied into the output directo
 ubcCtn[\t]Chinatown News
 ```
 
+You are free to edit the output file before running it through the drush script as long as you don't change structure of the fields and don't add any line breaks. Keep in mind that all HTML markup is stripped from the description before it is added to the collection objects' DC datastream. Markup is not stripped from node description fields (see below). Also, if you did not have desciptions or thumbnails for your collections in CONTENTdm, or you had to run `get_collection_data.php` using the 'api' method, you can add them to the demlimited file. If you want to add or change thumbnails, make sure that the file names in the fourth columns of the delimited file match the image files in the collection directories.
+
 There is another option in `get_collection_data.php` that warrants explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the Drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but it will contain a snapshot, in JSON format, of the collection's metadata configuration, which may prove useful in your migration process or for some unforseen purpose in the future.
 
 ### Step 2: Importing collection objects into Islandora
@@ -52,9 +54,8 @@ Options are:
  * `--parent`: (Optional) The collection to which the new collections should be added. Defaults to the root Islandora repository PID.
  * `--create_node_with_content_type`: (Optional) Create a node for each collection with the specified Drupal content type. Defaults to "page". The content type must exist and must be configured as described below.
 
-You are free to edit the output file before running it through the drush script as long as you don't change structure of the fields and don't add any line breaks. Keep in mind that all HTML markup is stripped from the description before it is added to the collection objects' DC datastream. Markup is not stripped from node description fields (see below).
+If there are no thumbnail images in the collection data directory, or if the drush script can't find an image identified in the tab-delimited file (due to a mismatching filename, for example), the newly created collection is assigned the thumbnail image provided by the Islandora Collection Solution Pack.
 
-If there are no thumbnail images in the collection data directory, or if the drush script can't find an image identified in the tab-delimited file (due to a mismatching filename, for example), the newly created collection is assigned the thumbnail image provided by the Islandora Collection Solution Pack. If you had not thumbnails in CONTENTdm, or you want to change the thumbnails before creating the Islandora collection objects, just add the new thumbnails to the appropriate collection directory.
 
 ## Creating Drupal nodes for collections
 

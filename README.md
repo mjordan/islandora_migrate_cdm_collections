@@ -30,7 +30,7 @@ ubcCtn[\t]Chinatown News
 
 There is another option in `get_collection_data.php` that warrants explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the Drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but it will contain a snapshot, in JSON format, of the collection's metadata configuration, which may prove useful in your migration process or for some unforseen purpose in the future.
 
-### Step 2: Getting collection data from your CONTENTdm server
+### Step 2: Importing collection objects into Islandora
 
 Once you have run `get_collection_data.php` and copied its output to your Islandora server, you must run the drush command `drush create-islandora-collections-from-cdm` to create the collection objects (and optionally, Drupal nodes corresponding to the objects) described in the output of `get_collection_data.php`.
 
@@ -57,7 +57,7 @@ If there are no thumbnail images in the collection data directory, or if the dru
 
 ## Creating Drupal nodes for collections
 
-If the `--create_node_with_content_type=mycontenttype` option is included, a Drupal node of the specified content type will be created. You must create this content type before running the drush command. The content type must contain the following fields:
+If the `--create_node_with_content_type=mycontenttype` option is included, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)

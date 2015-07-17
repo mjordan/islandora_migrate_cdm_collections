@@ -261,6 +261,10 @@ function write_output($data) {
     if (isset($contentdm_api_base_url)) {
       if ($get_collection_field_info) {
         global $contentdm_api_base_url;
+        $collection_output_dir = $output_dir . DIRECTORY_SEPARATOR . $collection[0];
+        if (!file_exists($collection_output_dir)) {
+          mkdir($collection_output_dir);
+        }
         $datastream_filename = 'CDMFIELDINFO.json';
         $field_info_dest_path = $collection_output_dir . DIRECTORY_SEPARATOR . $datastream_filename;
         if ($field_info = get_collection_field_info($contentdm_api_base_url, $collection[0])) {

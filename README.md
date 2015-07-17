@@ -57,7 +57,7 @@ If there are no thumbnail images in the collection data directory, or if the dru
 
 ## Creating Drupal nodes for collections
 
-If the `--create_node_with_content_type=mycontenttype` option is included, a Drupal node of the specified content type will be created. The content type must contain the following fields:
+If the `--create_node_with_content_type=mycontenttype` option is included, a Drupal node of the specified content type will be created. You must create this content type before running the drush command. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)

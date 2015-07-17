@@ -32,12 +32,29 @@ drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace
 or is short form:
 
 ```
-drush --user=admin cicfc --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
+drush --user=admin cicfc --namespace=mynamespace --parent=islandora:root  --input=/tmp/cdmcollectiondata/collection_data.tsv --create_node_with_content_type=mycontenttype
 ```
 
 You are free to edit the output file before running it through the drush script as long as you don't change structure of the fields and don't add any line breaks.
 
 If there are no thumbnail images in the collection data directory, or if the drush script can't find an image identified in the tab-delimited file (due to a mismatching filename, for example), the newly created collection is assigned the thumbnail image provided by the Islandora Collection Solution Pack.
+
+## Creating Drupal nodes for collections
+
+If the `--create_node_with_content_type=mycontenttype` option is included, a Drupal node of the specified content type will be created. The content type must contain the following fields:
+
+ * title
+ * cdm_alias (field type = Text, widget = Text field)
+ * description (field type = Long text, widget = Textarea (multiple rows); make the default input format Full HMTL))
+ * thumbnail (field type = Image, widget = Image)
+
+The field configuration for your content type should look like this:
+
+![Islandora CONTENTdm Collection Migrator content type field configuration](https://dl.dropboxusercontent.com/u/1015702/linked_to/islandora_migrate_cdm_collections_content_type_config.png)
+
+If the input data does not contain descriptions or thumbnails, values for these fields will not be added to the nodes.
+
+The nodes will be published, not sticky, be owned by user ID 1. If you want to change these settings, you'll need to do so manually or using [Views Bulk Operations](https://www.drupal.org/project/views_bulk_operations).
 
 ## Requirements
 

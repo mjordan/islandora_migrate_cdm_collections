@@ -20,6 +20,11 @@
  */
 function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islandora', $parent = 'islandora:root',
   $input_path = '/tmp/collections/collection_data.tsv', $collection_data = array()) {
+  if ($namespace == 'use_alias') {
+    $namespace = strtolower($collection_data[0]);
+    // The only non-alphanumeric character that Fedora namespaces can contain is -.
+    $namespace = preg_replace("/[^\da-z]/m", "-", $namespace);
+  }
   try {
     $tuque = new IslandoraTuque();
     $repository = $tuque->repository;

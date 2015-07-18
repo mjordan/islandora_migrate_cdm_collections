@@ -59,14 +59,14 @@ If there are no thumbnail images in the collection data directory, or if the dru
 
 ## Creating Drupal nodes for collections
 
-If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush commandbut the drush script will check for its existence and exit if the content type (or the required fields below) don't exist. The content type must contain the following fields:
+If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command, but the script will check for its existence and exit if the content type (or the required fields) don't exist. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)
- * description (field type = Long text, widget = Textarea (multiple rows); make the default input format Full HMTL))
+ * description (field type = Long text, widget = Textarea (multiple rows); make the default input format "Full HMTL"))
  * thumbnail (field type = Image, widget = Image)
 
-For all fields, use 1 in the "Number of values." configuration option. The field configuration for your content type should look like this:
+For all fields, use 1 in the "Number of values" configuration option. The field configuration for your content type should look like this:
 
 ![Islandora CONTENTdm Collection Migrator content type field configuration](https://dl.dropboxusercontent.com/u/1015702/linked_to/islandora_migrate_cdm_collections_content_type_config.png)
 

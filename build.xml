@@ -49,7 +49,7 @@
 
   <target name="code_sniff" description="Checks the code for Drupal coding standard violations" >
     <exec executable="phpcs">
-        <arg line="--standard=Drupal --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --extensions=inc,test,module,install --ignore=build/,css/,images/,xml/ ${basedir}" />
+        <arg line="--standard=Drupal --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml --extensions=inc,test,module,install --ignore=scripts/,build/,css/,images/,xml/ ${basedir}" />
     </exec>
   </target>
 

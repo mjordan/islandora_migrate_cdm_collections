@@ -36,7 +36,7 @@ function islandora_migrate_cdm_collections_drush_command() {
         'required' => 'TRUE',
       ),
       'create_node_with_content_type' => array(
-        'description' => 'Create a node for each collection with the specified Drupal content type. ',
+        'description' => 'Create a node for each collection with the specified Drupal content type. ' .
         'Defaults to "page".',
       ),
     ),
@@ -82,7 +82,11 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
         array('@type' => $params['create_node_with_content_type'])));
     }
 
-    $required_fields = array('field_description', 'field_cdm_alias', 'field_thumbnail');
+    $required_fields = array(
+      'field_description',
+      'field_cdm_alias',
+      'field_thumbnail',
+    );
     $fields = field_info_instances('node', $params['create_node_with_content_type']);
     foreach ($required_fields as $required_field) {
       if (!array_key_exists($required_field, $fields)) {
@@ -94,7 +98,7 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
 
   $collections_data = file($params['input']);
   foreach ($collections_data as $collection_config) {
-   $data = explode("\t", $collection_config);
+    $data = explode("\t", $collection_config);
     islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $params['input'], $data);
     if ($params['create_node_with_content_type']) {
       islandora_migrate_cdm_collections_ingest_node($params['input'], $data, $params['create_node_with_content_type']);

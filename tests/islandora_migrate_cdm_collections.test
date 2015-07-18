@@ -2,10 +2,12 @@
 
 /**
  * @file
- * Tests the presence of collections created by the Islandora CONTENTdm
- * Collection Migrator.
+ * Tests for the Islandora CONTENTdm Collection Migrator.
  */
 
+/**
+ * Tests for the presence of collection objects created by this module.
+ */
 class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
 
   /**
@@ -62,4 +64,5 @@ class IslandoraCdmCollMigratorTestCase extends IslandoraCollectionWebTestCase {
         'The text "collection $pid" appears on collection page.');
     }
   }
+
 }

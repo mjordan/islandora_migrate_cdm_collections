@@ -60,8 +60,36 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     'parent' => drush_get_option('parent', variable_get('islandora_repository_pid', 'islandora:root')),
     'create_node_with_content_type' => drush_get_option('create_node_with_content_type', NULL),
   );
+
+  if (empty(islandora_object_load(drush_get_option('parent')))) {
+    return drush_set_error(dt('The specified parent object (!parent) is not found or is not accessible.',
+      array('!parent' => drush_get_option('parent'))));
+  }
+
   if (!file_exists($params['input'])) {
     return drush_set_error(dt("Can't find data file at @path.", array('@path' => $params['input'])));
+  }
+
+  // Do some validation checks on the content type.
+  if (!is_null(drush_get_option('create_node_with_content_type'))) {
+    if (!$type = node_type_load($params['create_node_with_content_type'])) {
+      return drush_set_error(dt("Can't find the content type @type.",
+        array('@type' => $params['create_node_with_content_type'])));
+    }
+
+    if (!$type->has_title) {
+      return drush_set_error(dt("Content type @type has no title field.",
+        array('@type' => $params['create_node_with_content_type'])));
+    }
+
+    $required_fields = array('field_description', 'field_cdm_alias', 'field_thumbnail');
+    $fields = field_info_instances('node', $params['create_node_with_content_type']);
+    foreach ($required_fields as $required_field) {
+      if (!array_key_exists($required_field, $fields)) {
+        return drush_set_error(dt("Content type @type has no @field field.",
+          array('@type' => $params['create_node_with_content_type'], '@field' => $required_field)));
+      }
+    }
   }
 
   $collections_data = file($params['input']);

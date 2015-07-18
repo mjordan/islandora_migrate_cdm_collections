@@ -30,7 +30,7 @@ ubcCtn[\t]Chinatown News
 
 You are free to edit the output file before running it through the drush script as long as you don't change structure of the fields and don't add any line breaks. Keep in mind that all HTML markup is stripped from the description before it is added to the collection objects' DC datastream. Markup is not stripped from node description fields (see below). Also, if you did not have desciptions or thumbnails for your collections in CONTENTdm, or you had to run `get_collection_data.php` using the 'api' method, you can add them to the demlimited file. If you want to add or change thumbnails, make sure that the file names in the fourth columns of the delimited file match the image files in the collection directories.
 
-There is another option in `get_collection_data.php` that warrants explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the Drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but it will contain a snapshot, in JSON format, of the collection's metadata configuration, which may prove useful in your migration process or for some unforseen purpose in the future.
+There is another option in `get_collection_data.php` that warrants explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but may prove useful in your migration process or for some unforseen purpose in the future. The datastream will contain a snapshot, in JSON format, of the collection's metadata configuration.
 
 ### Step 2: Importing collection objects into Islandora
 
@@ -39,7 +39,7 @@ Once you have run `get_collection_data.php` and copied its output to your Island
 Two examples of the drush command are:
 
 ```
-drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=mycollection:10  --input=/tmp/cdmcollectiondata/collection_data.tsv
+drush --user=admin create-islandora-collections-from-cdm --namespace=mynamespace --parent=islandora:root  --input=/tmp/cdmcollectiondata/collection_data.tsv
 ```
 or its short form:
 

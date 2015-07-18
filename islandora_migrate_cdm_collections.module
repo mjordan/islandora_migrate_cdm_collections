@@ -138,7 +138,7 @@ EODC;
  *   The Drupal content type to use for the node.
  */
 function islandora_migrate_cdm_collections_ingest_node($input_path, $collection_data, $content_type) {
-  // Create the file object so we can add it to the node later.
+  // Create the file object so we can add it to the node.
   if (array_key_exists(3, $collection_data)) {
     $input_path_dirname = dirname($input_path);
     $path_to_thumbnail = $input_path_dirname . DIRECTORY_SEPARATOR .

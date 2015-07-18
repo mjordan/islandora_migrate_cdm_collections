@@ -71,7 +71,7 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
   }
 
   // Do some validation checks on the content type.
-  if (!is_null(drush_get_option('create_node_with_content_type'))) {
+  if ($params['create_node_with_content_type']) {
     if (!$type = node_type_load($params['create_node_with_content_type'])) {
       return drush_set_error(dt("Can't find the content type @type.",
         array('@type' => $params['create_node_with_content_type'])));

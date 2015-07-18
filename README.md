@@ -54,25 +54,25 @@ Options are:
  * `--parent`: (Optional) The collection to which the new collections should be added. Defaults to the root Islandora repository PID.
  * `--create_node_with_content_type`: (Optional) Create a node for each collection with the specified Drupal content type. Defaults to "page". The content type must exist and must be configured as described below.
 
-If there are no thumbnail images in the collection data directory, or if the drush script can't find an image identified in the tab-delimited file (due to a mismatching filename, for example), the newly created collection is assigned the thumbnail image provided by the Islandora Collection Solution Pack.
+If there are no thumbnail images in the collection data directory, or if the drush script can't find an image identified in the tab-delimited file (due to a mismatching filename, for example), the newly created collection is assigned the default thumbnail image provided by the Islandora Collection Solution Pack.
 
 
 ## Creating Drupal nodes for collections
 
-If the `--create_node_with_content_type=mycontenttype` option is included, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command. The content type must contain the following fields:
+If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)
  * description (field type = Long text, widget = Textarea (multiple rows); make the default input format Full HMTL))
  * thumbnail (field type = Image, widget = Image)
 
-The field configuration for your content type should look like this:
+For all fields, use 1 in the "Number of values." configuration option. The field configuration for your content type should look like this:
 
 ![Islandora CONTENTdm Collection Migrator content type field configuration](https://dl.dropboxusercontent.com/u/1015702/linked_to/islandora_migrate_cdm_collections_content_type_config.png)
 
 If the input data does not contain descriptions or thumbnails, values for these fields will not be added to the nodes.
 
-The nodes will be published, not sticky, be owned by user ID 1. If you want to change these settings, you'll need to do so manually or using [Views Bulk Operations](https://www.drupal.org/project/views_bulk_operations).
+The nodes will be published, not sticky, be owned by user ID 1, and use your site's default language. If you want to change these settings, you'll need to do so manually or using [Views Bulk Operations](https://www.drupal.org/project/views_bulk_operations).
 
 ## Requirements
 

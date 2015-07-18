@@ -59,7 +59,7 @@ If there are no thumbnail images in the collection data directory, or if the dru
 
 ## Creating Drupal nodes for collections
 
-If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command. The content type must contain the following fields:
+If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush commandbut the drush script will check for its existence and exit if the content type (or the required fields below) don't exist. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)
@@ -70,9 +70,9 @@ For all fields, use 1 in the "Number of values." configuration option. The field
 
 ![Islandora CONTENTdm Collection Migrator content type field configuration](https://dl.dropboxusercontent.com/u/1015702/linked_to/islandora_migrate_cdm_collections_content_type_config.png)
 
-If the input data does not contain descriptions or thumbnails, values for these fields will not be added to the nodes.
+Your content type may have additional fields if you wish, but the ones described above are required by this module.
 
-The nodes will be published, not sticky, be owned by user ID 1, and use your site's default language. If you want to change these settings, you'll need to do so manually or using [Views Bulk Operations](https://www.drupal.org/project/views_bulk_operations).
+The nodes will be published, not sticky, be owned by user ID 1, and use your site's default language. If you want to change these settings, you'll need to do so manually or using [Views Bulk Operations](https://www.drupal.org/project/views_bulk_operations). If the input data does not contain descriptions or thumbnails, values for these fields will not be added to the nodes.
 
 ## Requirements
 

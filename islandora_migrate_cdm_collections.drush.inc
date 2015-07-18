@@ -101,4 +101,3 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     }
   }
 }
-

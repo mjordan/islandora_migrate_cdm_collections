@@ -71,15 +71,19 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
   }
 
   // Do some validation checks on the content type.
+  // Replace all non letters, numbers, and spaces with _ prior to node_type_load(),
+  // same as Drupal core does, in case the user copies the machine name from the URL,
+  // which uses - instead of _.
+  $content_type = preg_replace('/[^a-zA-Z0-9]+/', '_', $params['create_node_with_content_type']);
   if ($params['create_node_with_content_type']) {
-    if (!$type = node_type_load($params['create_node_with_content_type'])) {
+    if (!$type = node_type_load($content_type)) {
       return drush_set_error(dt("Can't find the content type @type.",
-        array('@type' => $params['create_node_with_content_type'])));
+        array('@type' => $content_type)));
     }
 
     if (!$type->has_title) {
       return drush_set_error(dt("Content type @type has no title field.",
-        array('@type' => $params['create_node_with_content_type'])));
+        array('@type' => $content_type)));
     }
 
     $required_fields = array(
@@ -87,11 +91,11 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
       'field_cdm_alias',
       'field_thumbnail',
     );
-    $fields = field_info_instances('node', $params['create_node_with_content_type']);
+    $fields = field_info_instances('node', $content_type);
     foreach ($required_fields as $required_field) {
       if (!array_key_exists($required_field, $fields)) {
         return drush_set_error(dt("Content type @type has no @field field.",
-          array('@type' => $params['create_node_with_content_type'], '@field' => $required_field)));
+          array('@type' => $content_type, '@field' => $required_field)));
       }
     }
   }
@@ -101,7 +105,7 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     $data = explode("\t", $collection_config);
     islandora_migrate_cdm_collections_ingest_collection($params['namespace'], $params['parent'], $params['input'], $data);
     if ($params['create_node_with_content_type']) {
-      islandora_migrate_cdm_collections_ingest_node($params['input'], $data, $params['create_node_with_content_type']);
+      islandora_migrate_cdm_collections_ingest_node($params['input'], $data, $content_type);
     }
   }
 }

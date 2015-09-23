@@ -25,6 +25,10 @@ function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islan
     // The only non-alphanumeric character that Fedora namespaces
     // can contain is "-".
     $namespace = preg_replace("/[^\da-z]/m", "-", $namespace);
+    // Here we create a PID according the pattern 'alias:collection' (i.e., the
+    // CONTENTdm alias plus the string 'collection'). So in this case,
+    // $namespace is actually a PID.
+    $namespace = $namespace . ':collection';
   }
   try {
     $tuque = new IslandoraTuque();

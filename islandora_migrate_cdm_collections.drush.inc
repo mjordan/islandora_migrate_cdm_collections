@@ -24,7 +24,9 @@ function islandora_migrate_cdm_collections_drush_command() {
     'description' => dt('Creates Islandora collections using the specified data exported from CONTENTdm.'),
     'options' => array(
       'namespace' => array(
-        'description' => 'The namespace to use for the new collections. Defaults to "islandora".',
+        'description' => 'The namespace to use for the new collections. Provide the value "use_alias" to ' .
+        'use the pattern alias:collection (i.e., the CONTENTdm alias plus the string "collection"). ' .
+        'Defaults to "islandora".',
       ),
       'parent' => array(
         'description' => 'The collection to which the new collections should ' .

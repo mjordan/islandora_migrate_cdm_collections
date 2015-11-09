@@ -26,8 +26,7 @@ function islandora_migrate_cdm_collections_ingest_collection($namespace = 'islan
     // can contain is "-".
     $namespace = preg_replace("/[^\da-z]/m", "-", $namespace);
     // Here we create a PID according the pattern 'alias:collection' (i.e., the
-    // CONTENTdm alias plus the string 'collection'). So in this case,
-    // $namespace is actually a PID.
+    // CONTENTdm alias plus the string 'collection').
     $namespace = $namespace . ':collection';
   }
   try {
@@ -142,8 +141,10 @@ EODC;
  *   The configuration data for one CONTENTdm collection.
  * @param string $content_type
  *   The Drupal content type to use for the node.
+ * @param string $namespace
+ *   The value of the --namespace Drush option.
  */
-function islandora_migrate_cdm_collections_ingest_node($input_path, array $collection_data, $content_type) {
+function islandora_migrate_cdm_collections_ingest_node($input_path, array $collection_data, $content_type, $namespace = NULL) {
   // Create the file object so we can add it to the node.
   if (array_key_exists(3, $collection_data)) {
     $input_path_dirname = dirname($input_path);
@@ -184,6 +185,12 @@ function islandora_migrate_cdm_collections_ingest_node($input_path, array $colle
     $node->field_thumbnail[LANGUAGE_NONE][0] = (array) $file;
   }
 
+  if ($namespace == 'use_alias') {
+    $node->field_pid[LANGUAGE_NONE][0]['value'] = $collection_data[0] . ':collection';
+  }
+  else {
+    $node->field_pid[LANGUAGE_NONE][0]['value'] = '';
+  }
   $node->field_cdm_alias[LANGUAGE_NONE][0]['value'] = $collection_data[0];
   if (array_key_exists(2, $collection_data)) {
     $node->field_description[LANGUAGE_NONE][0]['value'] = $collection_data[2];

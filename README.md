@@ -70,6 +70,7 @@ If you include the `--create_node_with_content_type=mycontenttype` option, the d
  * cdm_alias (field type = Text, widget = Text field)
  * description (field type = Long text, widget = Textarea (multiple rows); make the default input format "Full HMTL"))
  * thumbnail (field type = Image, widget = Image)
+ * pid (field type = Text, widget = Text field)
 
 For all fields, use 1 in the "Number of values" configuration option. The field configuration for your content type should look like this:
 

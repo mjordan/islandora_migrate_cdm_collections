@@ -46,7 +46,7 @@ EOCP;
 
     // Add the COLLECTION_POLICY ds.
     $coll_policy_datastream = $collection_object->constructDatastream('COLLECTION_POLICY', 'M');
-    $coll_policy_datastream->label = 'CoLlection policy';
+    $coll_policy_datastream->label = 'Collection policy';
     $coll_policy_datastream->mimetype = 'text/xml';
     $coll_policy_datastream->setContentFromString($collection_policy_xml);
     $collection_object->ingestDatastream($coll_policy_datastream);

@@ -33,7 +33,7 @@ Thumbnail images identified in the last field are copied into the output directo
 ubcCtn[\t]Chinatown News
 ```
 
-You are free to edit the output file *before* running it through the drush script as long as you don't change structure of the fields and don't add any line breaks. Keep in mind that all HTML markup is stripped from the description before it is added to the collection objects' DC datastream. Markup is not stripped from node description fields (see below). Also, if you did not have desciptions or thumbnails for your collections in CONTENTdm, or you had to run `get_collection_data.php` using the 'api' method, you can add them to the delimited file. If you want to add or change thumbnails, make sure that the file names in the fourth columns of the delimited file match the image files in the collection directories.
+You are free to edit the output file *before* running it through the drush script as long as you don't change structure of the fields and don't add any line breaks. Markup is not stripped by this script from node description fields (see below), but keep in mind that all HTML markup is stripped by Islandora from the description before it is added to the collection objects' DC datastream. Also, if you did not have desciptions or thumbnails for your collections in CONTENTdm, or you had to run `get_collection_data.php` using the 'api' method, you can add them to the delimited file. If you want to add or change thumbnails, make sure that the file names in the fourth columns of the delimited file match the image files in the collection directories.
 
 There is another option in `get_collection_data.php` that warrants explanation. If you set the `$get_collection_field_info` variable to TRUE, each of the Islandora collection objects created by the drush script will have a datastream with the DSID 'CDMFIELDINFO'. This datastream is not required but may prove useful in your migration process or for some unforseen purpose in the future. The datastream will contain a snapshot, in JSON format, of the collection's metadata configuration.
 
@@ -64,7 +64,7 @@ If there are no thumbnail images in the collection data directory, or if the dru
 
 ## Creating Drupal nodes for collections
 
-If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type before running the drush command, but the script will check for its existence and exit if the content type (or the required fields) don't exist. The content type must contain the following fields:
+If you include the `--create_node_with_content_type=mycontenttype` option, the drush script will create a Drupal node of the specified content type corresponding to each collection object. You must create this content type *before* running the drush command, but the script will check for its existence and exit if the content type (or the required fields) don't exist. The content type must contain the following fields:
 
  * title
  * cdm_alias (field type = Text, widget = Text field)

@@ -51,26 +51,66 @@ EOCP;
     $coll_policy_datastream->setContentFromString($collection_policy_xml);
     $collection_object->ingestDatastream($coll_policy_datastream);
 
-    // Add the DC ds.
+    // Add the MODS ds.
     if (count($collection_data) > 2 && strlen($collection_data[2])) {
       $collection_description = strip_tags($collection_data[2]);
     }
     else {
       $collection_description = '';
     }
-    $dc_xml = <<<EODC
-<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-<dc:title>$collection_data[1]</dc:title>
-<dc:identifier>$collection_object->pid</dc:identifier>
-<dc:description>$collection_description</dc:description>
-</oai_dc:dc>
+    $mods_xml = <<<EODC
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo>
+    <title>$collection_data[1]</title>
+  </titleInfo>
+  <name type="personal">
+    <namePart/>
+    <role>
+      <roleTerm authority="marcrelator" type="text"/>
+    </role>
+  </name>
+  <typeOfResource collection="yes"/>
+  <genre authority="lctgm"/>
+  <originInfo>
+    <dateCreated/>
+  </originInfo>
+  <language>
+    <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+  </language>
+  <abstract>$collection_description</abstract>
+  <identifier type="local"/>
+  <physicalDescription>
+    <form authority="marcform"/>
+    <extent/>
+  </physicalDescription>
+  <note/>
+  <accessCondition/>
+  <subject>
+    <topic/>
+    <geographic/>
+    <temporal/>
+    <hierarchicalGeographic>
+      <continent/>
+      <country/>
+      <province/>
+      <region/>
+      <county/>
+      <city/>
+      <citySection/>
+    </hierarchicalGeographic>
+    <cartographics>
+      <coordinates/>
+    </cartographics>
+  </subject>
+</mods>
 EODC;
 
-    $dc_datastream = $collection_object->constructDatastream('DC', 'M');
-    $dc_datastream->label = 'Dublin Core Record for this object';
-    $dc_datastream->mimetype = 'text/xml';
-    $dc_datastream->setContentFromString($dc_xml);
-    $collection_object->ingestDatastream($dc_datastream);
+    $mods_datastream = $collection_object->constructDatastream('MODS', 'M');
+    $mods_datastream->label = 'MODS Record';
+    $mods_datastream->mimetype = 'application/xml';
+    $mods_datastream->setContentFromString($mods_xml);
+    $collection_object->ingestDatastream($mods_datastream);
 
     // Add thumbnail ds. If we don't have thumbnails in the input data,
     // use the image provided by the collection solution pack.

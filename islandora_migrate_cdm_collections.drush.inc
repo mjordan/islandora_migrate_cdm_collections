@@ -63,10 +63,11 @@ function drush_islandora_migrate_cdm_collections_create_islandora_collections_fr
     'create_node_with_content_type' => drush_get_option('create_node_with_content_type', NULL),
   );
 
-  if (empty(islandora_object_load(drush_get_option('parent')))) {
-    return drush_set_error(dt('The specified parent object (!parent) is not found or is not accessible.',
-      array('!parent' => drush_get_option('parent'))));
-  }
+    $parent = islandora_object_load(drush_get_option('parent'));
+    if (empty($parent)) {
+        return drush_set_error(dt('The specified parent object (!parent) is not found or is not accessible.',
+            array('!parent' => drush_get_option('parent'))));
+    }
 
   if (!file_exists($params['input'])) {
     return drush_set_error(dt("Can't find data file at @path.", array('@path' => $params['input'])));
